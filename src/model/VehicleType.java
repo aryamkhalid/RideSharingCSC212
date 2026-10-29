@@ -1,9 +1,8 @@
 package model;
 
 public enum VehicleType {
-    ECONOMY,
-    COMFORT,
+    SEDAN,
     LUXURY_SEDAN,
     SUV,
-    XL;
+    VAN
 }
