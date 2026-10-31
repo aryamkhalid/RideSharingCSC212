@@ -2,17 +2,41 @@
 package model;
 
 import java.util.Scanner;
+import java.io.File;
 
 public class Main {
+
+    // Find CSV files even when the project is inside another folder
+    private static String findCSVFile(String fileName) {
+        String[] possiblePaths = {
+            fileName,
+            "RideSharingCSC212-main/" + fileName,
+            "../" + fileName,
+            "../RideSharingCSC212-main/" + fileName
+        };
+
+        for (String path : possiblePaths) {
+            if (new File(path).isFile()) {
+                return path;
+            }
+        }
+
+        return fileName;
+    }
 
     public static void main(String[] args) {
         RideSharingSystem system = new RideSharingSystem();
         Scanner scanner = new Scanner(System.in);
 
         // Load the CSV files
-        boolean ridersLoaded = system.loadRidersFromCSV("riders_100.csv");
-        boolean driversLoaded = system.loadDriversFromCSV("drivers_30.csv");
-        boolean ridesLoaded = system.loadRidesFromCSV("rides_40.csv");
+        boolean ridersLoaded = system.loadRidersFromCSV(
+                findCSVFile("riders_100.csv"));
+
+        boolean driversLoaded = system.loadDriversFromCSV(
+                findCSVFile("drivers_30.csv"));
+
+        boolean ridesLoaded = system.loadRidesFromCSV(
+                findCSVFile("rides_40.csv"));
 
         System.out.println("=== Ride-Sharing System Started ===");
         System.out.println("Riders loaded: " + (ridersLoaded ? "Success" : "Failed"));
